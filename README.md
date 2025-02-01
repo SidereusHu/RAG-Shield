@@ -1,13 +1,13 @@
 # RAG-Shield
 
-**Security Framework for Retrieval-Augmented Generation Systems**
+**Security Framework for AI Retrieval-Augmented Generation Systems**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
 RAG-Shield is a comprehensive security framework designed to protect Retrieval-Augmented Generation (RAG) systems from knowledge poisoning attacks, data leakage, and integrity violations.
 
-## 🎯 Key Features
+## Key Features
 
 - **🛡️ Poison Detection**: Multi-method detection of malicious documents (Perplexity, Similarity, Semantic)
 - **🔐 Integrity Protection**: Merkle Tree-based knowledge base verification and vector commitment
@@ -15,7 +15,7 @@ RAG-Shield is a comprehensive security framework designed to protect Retrieval-A
 - **🔍 Attack Forensics**: Trace and locate poisoned documents responsible for attacks
 - **⚔️ Red Team Tools**: Simulate various poisoning attacks for security testing
 
-## 📚 Background
+## Background
 
 Recent research has shown that RAG systems are vulnerable to knowledge poisoning attacks:
 - **PoisonedRAG** (USENIX Security 2025): Achieves 90% attack success rate with just 5 malicious documents
@@ -23,7 +23,7 @@ Recent research has shown that RAG systems are vulnerable to knowledge poisoning
 
 RAG-Shield provides practical defenses against these threats.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -73,23 +73,36 @@ if result.is_poisoned:
 ### Integrity Protection
 
 ```python
-from ragshield.integrity import MerkleTreeVerifier
+from ragshield.core import Document, KnowledgeBase
+from ragshield.integrity import IntegrityGuard
+import numpy as np
 
-# Build Merkle tree for knowledge base
-verifier = MerkleTreeVerifier()
-root_hash = verifier.build_tree(documents)
+# Create knowledge base with documents
+kb = KnowledgeBase()
+for content in ["Paris is the capital of France.", "London is in UK."]:
+    doc = Document(content=content)
+    doc.embedding = np.random.randn(128).tolist()
+    kb.add_document(doc)
+
+# Protect with IntegrityGuard (Merkle Tree + Vector Commitment + Audit Log)
+guard = IntegrityGuard()
+root_hash = guard.protect_knowledge_base(kb)
 
 # Verify document integrity
-proof = verifier.generate_proof(doc_id=0)
-is_valid = verifier.verify_document(documents[0], proof, root_hash)
+doc = kb.documents[0]
+result = guard.verify_document(doc.doc_id, doc)
+if result.is_valid:
+    print("Document integrity verified")
+else:
+    print(f"Tampering detected: {result.status.value}")
 ```
 
-## 📖 Documentation
+## Documentation
 
 - [English Documentation](docs/en/index.md)
 - [中文文档](docs/zh/index.md)
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -108,7 +121,7 @@ is_valid = verifier.verify_document(documents[0], proof, root_hash)
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 🧪 Development
+## Development
 
 ### Setup Development Environment
 
@@ -141,31 +154,23 @@ RAG-Shield achieves significant improvements in security:
 | False Positive Rate | - | < 5% |
 | Detection Latency | - | < 100ms |
 
-## 🗂️ Project Status
+## Project Status
 
 - [x] Phase 1: Core RAG system and poison detection
-- [ ] Phase 2: Cryptographic integrity protection
+- [x] Phase 2: Cryptographic integrity protection
 - [ ] Phase 3: Privacy-preserving retrieval
 - [ ] Phase 4: Attack forensics and defense
 - [ ] Phase 5: Red team tools and evaluation
 
-## 📝 Blog Series
-
-1. [RAG 系统安全威胁全景](blog/blog1_rag_threat_landscape.md)
-2. [投毒攻击检测技术实战](blog/blog2_poison_detection.md)
-3. Merkle Tree 在 RAG 完整性验证中的应用 (Coming soon)
-4. 差分隐私在 RAG 检索中的应用 (Coming soon)
-5. RAG 投毒攻击溯源技术 (Coming soon)
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 This project is inspired by:
 - [PoisonedRAG](https://github.com/sleeepeer/PoisonedRAG) (USENIX Security 2025)
