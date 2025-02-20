@@ -13,6 +13,8 @@ RAG-Shield is a comprehensive security framework designed to protect Retrieval-A
 - **Integrity Protection**: Merkle Tree-based knowledge base verification and vector commitment
 - **Privacy Preservation**: Differential privacy retrieval with budget management
 - **Private Information Retrieval**: Cryptographic PIR for query privacy (single/multi-server)
+- **Attack Forensics**: Provenance tracking, pattern analysis, timeline reconstruction, attribution
+- **Active Defense**: Quarantine system, real-time monitoring, input sanitization, unified shield
 - **Red Team Tools**: Simulate various poisoning attacks for security testing
 
 ## Background
@@ -84,21 +86,21 @@ result = retriever.retrieve(query_embedding, top_k=5)
 ## Architecture
 
 ```
-+-----------------------------------------------------------+
-|                    RAG-Shield Framework                    |
-+-----------------------------------------------------------+
-| Detection | Integrity | Privacy | PIR       | Red Team    |
-| ----------|-----------|---------|-----------|-------------|
-| Perplexity| Merkle    | DP      | Single-   | Poisoning   |
-| Similarity| VectorCom | Budget  | Server HE | Attacks     |
-| Semantic  | AuditLog  | Query   | Multi-    | Adversarial |
-|           |           | Sanitize| Server XOR|             |
-+-----------------------------------------------------------+
-                            |
-+-----------------------------------------------------------+
-|                    RAG System Core                         |
-|  Knowledge Base | Retriever | Embedder | LLM Generator    |
-+-----------------------------------------------------------+
++-------------------------------------------------------------------------------+
+|                           RAG-Shield Framework                                 |
++-------------------------------------------------------------------------------+
+| Detection | Integrity | Privacy | PIR       | Forensics   | Defense          |
+| ----------|-----------|---------|-----------|-------------|------------------|
+| Perplexity| Merkle    | DP      | Single-   | Provenance  | Quarantine       |
+| Similarity| VectorCom | Budget  | Server HE | Pattern     | Monitor          |
+| Semantic  | AuditLog  | Query   | Multi-    | Timeline    | Sanitizer        |
+|           |           | Sanitize| Server XOR| Attribution | Shield           |
++-------------------------------------------------------------------------------+
+                                    |
++-------------------------------------------------------------------------------+
+|                            RAG System Core                                     |
+|      Knowledge Base | Retriever | Embedder | LLM Generator | Red Team        |
++-------------------------------------------------------------------------------+
 ```
 
 ## Modules
@@ -127,6 +129,18 @@ result = retriever.retrieve(query_embedding, top_k=5)
 - Threshold PIR (Shamir secret sharing)
 - Hybrid DP+PIR retrieval
 
+### Forensics (`ragshield.forensics`)
+- Provenance tracking with chain of custody
+- Attack pattern analysis and fingerprinting
+- Timeline reconstruction for attack campaigns
+- Attribution and source identification
+
+### Defense (`ragshield.defense`)
+- Document quarantine with review workflow
+- Real-time monitoring and alerting
+- Content/embedding/metadata sanitization
+- Unified RAGShield protection layer
+
 ### Red Team (`ragshield.redteam`)
 - Direct poisoning attacks
 - Adversarial poisoning
@@ -151,8 +165,10 @@ RAG-Shield/
 │   ├── integrity/     # Cryptographic integrity
 │   ├── privacy/       # Differential privacy
 │   ├── pir/           # Private information retrieval
+│   ├── forensics/     # Attack forensics
+│   ├── defense/       # Active defense
 │   └── redteam/       # Attack simulation
-├── tests/             # Unit tests
+├── tests/             # Unit tests (233 tests)
 ├── examples/          # Demo scripts
 └── blog/              # Technical blog posts (local only)
 ```
@@ -163,7 +179,7 @@ RAG-Shield/
 - [x] Phase 2: Cryptographic integrity protection (Merkle Tree, Vector Commitment)
 - [x] Phase 3: Privacy-preserving retrieval (Differential Privacy)
 - [x] Phase 3.5: Private Information Retrieval (PIR)
-- [ ] Phase 4: Attack forensics and defense
+- [x] Phase 4: Attack forensics and defense (Provenance, Quarantine, Shield)
 - [ ] Phase 5: Evaluation and benchmarks
 
 ## License
