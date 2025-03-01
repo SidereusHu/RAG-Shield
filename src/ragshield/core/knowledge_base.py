@@ -1,8 +1,9 @@
 """Knowledge base for storing and managing documents."""
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from ragshield.core.document import Document
 import json
+import numpy as np
 
 
 class KnowledgeBase:
@@ -107,6 +108,44 @@ class KnowledgeBase:
                 raise ValueError(f"Document {doc.doc_id} has no embedding")
             embeddings.append(doc.embedding)
         return embeddings
+
+    def search(
+        self,
+        query_embedding: List[float],
+        top_k: int = 10,
+    ) -> List[Tuple[Document, float]]:
+        """Search for most similar documents using cosine similarity.
+
+        Args:
+            query_embedding: Query embedding vector
+            top_k: Number of top results to return
+
+        Returns:
+            List of (document, similarity_score) tuples, sorted by score
+        """
+        if not self.documents:
+            return []
+
+        query = np.array(query_embedding)
+        query_norm = np.linalg.norm(query)
+        if query_norm == 0:
+            return []
+        query = query / query_norm
+
+        results = []
+        for doc in self.documents:
+            if doc.embedding is None:
+                continue
+            doc_emb = np.array(doc.embedding)
+            doc_norm = np.linalg.norm(doc_emb)
+            if doc_norm == 0:
+                continue
+            doc_emb = doc_emb / doc_norm
+            similarity = float(np.dot(query, doc_emb))
+            results.append((doc, similarity))
+
+        results.sort(key=lambda x: x[1], reverse=True)
+        return results[:top_k]
 
     def size(self) -> int:
         """Get the number of documents in the knowledge base.
