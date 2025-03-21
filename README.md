@@ -294,7 +294,6 @@ RAG-Shield/
 │   └── redteam/        # Attack simulation
 ├── tests/              # 325 unit tests
 ├── examples/           # Demo scripts
-├── blog/               # Technical blog series (9 posts)
 └── docs/
     └── whitepaper.md   # Technical whitepaper
 ```
@@ -369,20 +368,6 @@ The whitepaper covers:
 - Differential privacy and PIR protocols
 - Experimental results and performance benchmarks
 - Comparison with related work
-
-### Blog Series
-
-This project is accompanied by a 9-part technical blog series:
-
-1. [RAG Threat Landscape](blog/blog1_rag_threat_landscape.md)
-2. [Poison Detection Methods](blog/blog2_poison_detection.md)
-3. [Merkle Tree Integrity](blog/blog3_merkle_integrity.md)
-4. [Differential Privacy](blog/blog4_differential_privacy.md)
-5. [Private Information Retrieval](blog/blog5_private_information_retrieval.md)
-6. [Attack Forensics](blog/blog6_attack_forensics.md)
-7. [Active Defense](blog/blog7_active_defense.md)
-8. [Evaluation & Benchmarks](blog/blog8_evaluation_benchmarks.md)
-9. [Production Integration](blog/blog9_production_integration.md)
 
 ## Performance
 
